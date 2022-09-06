@@ -15,84 +15,176 @@ import {
 import { Input, Label, TextField } from "../Components/TextField";
 import { Button } from "../Components/Button";
 import { Table, Td, Th, Tbody, Thead, Tr } from "../Components/Table";
+import { connect } from "react-redux";
+import {
+  ADD_TASK,
+  CHANGE_THEME,
+  COMPLETE_TASK,
+  DELETE_TASK,
+  EDIT_TASK,
+  GET_TASKNAME,
+  PUSH_TASKNAME,
+} from "../redux/constans/ToDoList_Constans";
+import { arrTheme } from "../Theme/ThemeManager";
 
-export default class ToDoList extends Component {
+export class ToDoList extends Component {
+  // state = {
+  //   taskName: "",
+  // };
+  renderTaskToDo = () => {
+    return this.props.taskList
+      .filter((task) => !task.done)
+      .map((task, index) => {
+        return (
+          <Tr key={index}>
+            <Th style={{ verticalAlign: "middle" }}>{task.taskName}</Th>
+            <Th className="text-right">
+              <Button
+                className="ml-1"
+                onClick={() => {
+                  this.props.handlePushTaskName(task);
+                }}
+              >
+                <i className="fa fa-edit"></i>
+              </Button>
+              <Button
+                className="ml-1"
+                onClick={() => {
+                  this.props.handleCompleteTask(task.id);
+                }}
+              >
+                <i className="fa fa-check"></i>
+              </Button>
+              <Button
+                className="ml-1"
+                onClick={() => {
+                  this.props.handleDeleteTask(task.id);
+                }}
+              >
+                <i className="fa fa-trash"></i>
+              </Button>
+            </Th>
+          </Tr>
+        );
+      });
+  };
+  renderTaskComplete = () => {
+    return this.props.taskList
+      .filter((task) => task.done)
+      .map((task, index) => {
+        return (
+          <Tr key={index}>
+            <Th style={{ verticalAlign: "middle" }}>{task.taskName}</Th>
+            <Th className="text-right">
+              <Button
+                className="ml-1"
+                onClick={() => {
+                  this.props.handleDeleteTask(task.id);
+                }}
+              >
+                <i className="fa fa-trash"></i>
+              </Button>
+            </Th>
+          </Tr>
+        );
+      });
+  };
+  renderTheme = () => {
+    return arrTheme.map((theme, index) => {
+      return <option value={theme.id}>{theme.name}</option>;
+    });
+  };
   render() {
     return (
-      <ThemeProvider theme={ToDoListDarkTheme}>
+      <ThemeProvider theme={this.props.themeToDoList}>
         <Container className="w-50">
           <Heading3>ToDoList</Heading3>
-          <Dropdown>
-            <option>Dark theme</option>
-            <option>Light theme</option>
-            <option>primary theme</option>
+          <Dropdown
+            onChange={(e) => {
+              this.props.handleChangeTheme(e);
+            }}
+          >
+            {this.renderTheme()}
           </Dropdown>
-          <TextField label="Task name" className="w-50"></TextField>
-          <Button className="ml-2">
-            <i class="fa fa-plus"></i> Add task
+          <TextField
+            value={this.props.taskEdit.taskName}
+            onChange={(e) => {
+              this.props.handleOnChange(e);
+            }}
+            label="Task name"
+            className="w-50"
+          ></TextField>
+          <Button className="ml-2" onClick={this.props.handleAddTask}>
+            <i className="fa fa-plus"></i> Add task
           </Button>
           <Button className="ml-2">
-            <i class="fa fa-upload"></i> Add task
+            <i className="fa fa-upload"></i> Edit task
           </Button>
           <hr />
           <Heading3>Task to do</Heading3>
           <Table>
-            <Thead>
-              <Tr>
-                <Th style={{ verticalAlign: "middle" }}>Task name</Th>
-                <Th className="text-right">
-                  <Button className="ml-1">
-                    <i className="fa fa-edit"></i>
-                  </Button>
-                  <Button className="ml-1">
-                    <i className="fa fa-check"></i>
-                  </Button>
-                  <Button className="ml-1">
-                    {" "}
-                    <i className="fa fa-trash"></i>
-                  </Button>
-                </Th>
-              </Tr>
-              <Tr>
-                <Th style={{ verticalAlign: "middle" }}>Task name</Th>
-                <Th className="text-right">
-                  <Button className="ml-1">
-                    <i className="fa fa-edit"></i>
-                  </Button>
-                  <Button className="ml-1">
-                    <i className="fa fa-check"></i>
-                  </Button>
-                  <Button className="ml-1">
-                    <i className="fa fa-trash"></i>
-                  </Button>
-                </Th>
-              </Tr>
-            </Thead>
+            <Thead>{this.renderTaskToDo()}</Thead>
           </Table>
           <Heading3>Task Complete</Heading3>
           <Table>
-            <Thead>
-              <Tr>
-                <Th style={{ verticalAlign: "middle" }}>Task name</Th>
-                <Th className="text-right">
-                  <Button className="ml-1">
-                    {" "}
-                    <i className="fa fa-trash"></i>
-                  </Button>
-                </Th>
-              </Tr>
-              <Tr>
-                <Th style={{ verticalAlign: "middle" }}>Task name</Th>
-                <Th className="text-right">
-                  <Button className="ml-1">
-                    <i className="fa fa-trash"></i>
-                  </Button>
-                </Th>
-              </Tr>
-            </Thead>
+            <Thead>{this.renderTaskComplete()}</Thead>
           </Table>
         </Container>
       </ThemeProvider>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    themeToDoList: state.ToDoList_Reducer.themeToDoList,
+    taskList: state.ToDoList_Reducer.taskList,
+    taskEdit: state.ToDoList_Reducer.taskEdit,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleChangeTheme: (e) => {
+      dispatch({
+        type: CHANGE_THEME,
+        payload: e,
+      });
+    },
+    handleAddTask: () => {
+      dispatch({
+        type: ADD_TASK,
+      });
+    },
+    handleOnChange: (e) => {
+      dispatch({
+        type: GET_TASKNAME,
+        payload: e,
+      });
+    },
+    handleDeleteTask: (idTask) => {
+      dispatch({
+        type: DELETE_TASK,
+        payload: idTask,
+      });
+    },
+    handleEditTask: (idTask) => {
+      dispatch({
+        type: EDIT_TASK,
+        payload: idTask,
+      });
+    },
+    handleCompleteTask: (idTask) => {
+      dispatch({
+        type: COMPLETE_TASK,
+        payload: idTask,
+      });
+    },
+    handlePushTaskName: (task) => {
+      dispatch({
+        type: PUSH_TASKNAME,
+        payload: task,
+      });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
