@@ -103,6 +103,7 @@ export class ToDoList extends Component {
     // console.log("newProps", newProps);
     this.setState({ taskName: newProps.taskEdit.taskName });
   }
+
   render() {
     return (
       <ThemeProvider theme={this.props.themeToDoList}>
