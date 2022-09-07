@@ -28,9 +28,9 @@ import {
 import { arrTheme } from "../Theme/ThemeManager";
 
 export class ToDoList extends Component {
-  // state = {
-  //   taskName: "",
-  // };
+  state = {
+    taskName: "",
+  };
   renderTaskToDo = () => {
     return this.props.taskList
       .filter((task) => !task.done)
@@ -91,9 +91,18 @@ export class ToDoList extends Component {
   };
   renderTheme = () => {
     return arrTheme.map((theme, index) => {
-      return <option value={theme.id}>{theme.name}</option>;
+      return (
+        <option key={index} value={theme.id}>
+          {theme.name}
+        </option>
+      );
     });
   };
+  UNSAFE_componentWillReceiveProps(newProps) {
+    // console.log("this.props", this.props);
+    // console.log("newProps", newProps);
+    this.setState({ taskName: newProps.taskEdit.taskName });
+  }
   render() {
     return (
       <ThemeProvider theme={this.props.themeToDoList}>
@@ -107,14 +116,28 @@ export class ToDoList extends Component {
             {this.renderTheme()}
           </Dropdown>
           <TextField
-            value={this.props.taskEdit.taskName}
+            value={this.state.taskName}
             onChange={(e) => {
-              this.props.handleOnChange(e);
+              this.setState({
+                taskName: e.target.value,
+              });
             }}
             label="Task name"
             className="w-50"
           ></TextField>
-          <Button className="ml-2" onClick={this.props.handleAddTask}>
+          <Button
+            className="ml-2"
+            onClick={() => {
+              let { taskName } = this.state;
+
+              let task = {
+                id: Date.now(),
+                taskName: taskName,
+                done: false,
+              };
+              this.props.handleAddTask(task);
+            }}
+          >
             <i className="fa fa-plus"></i> Add task
           </Button>
           <Button className="ml-2">
@@ -150,17 +173,18 @@ const mapDispatchToProps = (dispatch) => {
         payload: e,
       });
     },
-    handleAddTask: () => {
+    handleAddTask: (task) => {
       dispatch({
         type: ADD_TASK,
+        payload: task,
       });
     },
-    handleOnChange: (e) => {
-      dispatch({
-        type: GET_TASKNAME,
-        payload: e,
-      });
-    },
+    // handleOnChange: (e) => {
+    //   dispatch({
+    //     type: GET_TASKNAME,
+    //     payload: e,
+    //   });
+    // },
     handleDeleteTask: (idTask) => {
       dispatch({
         type: DELETE_TASK,

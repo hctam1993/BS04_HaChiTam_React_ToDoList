@@ -17,7 +17,7 @@ const initialState = {
     { id: 3, taskName: "task 3", done: true },
     { id: 4, taskName: "task 4", done: false },
   ],
-  taskName: "",
+  // taskName: "",
   taskEdit: { id: "", taskName: "", done: false },
 };
 
@@ -35,23 +35,17 @@ export default (state = initialState, { type, payload }) => {
       return { ...state };
     }
     case ADD_TASK: {
-      //lay thong tin tu input
-      let taskName = state.taskName;
-      //tao 1 projact moi
-      if (taskName === "") {
-        alert("Task name khong de trong");
+      let task = payload;
+      // console.log("task: ", task);
+
+      if (task.taskName.trim() === "") {
+        alert("TaskName khong duoc de trong");
         return { ...state };
       }
-      let task = {
-        id: Date.now(),
-        taskName: taskName,
-        done: false,
-      };
-      //   console.log("task: ", task);
       //dua task object vao taskList
       let taskListClone = [...state.taskList];
-      let index = taskListClone.findIndex((task) => {
-        return task.taskName === taskName;
+      let index = taskListClone.findIndex((item) => {
+        return item.taskName === task.taskName;
       });
       if (index !== -1) {
         alert("Task da ton tai, moi nhap task khac");
@@ -64,11 +58,16 @@ export default (state = initialState, { type, payload }) => {
 
       return { ...state };
     }
-    case GET_TASKNAME: {
-      if (payload != null) state.taskName = payload.target.value;
-      //   console.log("state.taskName: ", state.taskName);
-      return { ...state };
-    }
+    // case GET_TASKNAME: {
+    //   if (payload != null) {
+    //     state.taskName = payload.target.value;
+    //     console.log("state.taskName: ", state.taskName);
+    //   }
+    //   state.taskEdit.taskName = state.taskName;
+    //   console.log("state.taskEdit.taskName: ", state.taskEdit.taskName);
+    //   //   console.log("state.taskName: ", state.taskName);
+    //   return { ...state };
+    // }
     case DELETE_TASK: {
       //   let taskListClone = [...state.taskList];
       //   let index = taskListClone.findIndex((item) => {
