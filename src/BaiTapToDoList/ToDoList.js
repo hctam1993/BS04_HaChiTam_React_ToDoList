@@ -225,12 +225,12 @@ const mapDispatchToProps = (dispatch) => {
         payload: task,
       });
     },
-    // handleOnChange: (e) => {
-    //   dispatch({
-    //     type: GET_TASKNAME,
-    //     payload: e,
-    //   });
-    // },
+    // // handleOnChange: (e) => {
+    // //   dispatch({
+    // //     type: GET_TASKNAME,
+    // //     payload: e,
+    // //   });
+    // // },
     handleDeleteTask: (idTask) => {
       dispatch({
         type: DELETE_TASK,
