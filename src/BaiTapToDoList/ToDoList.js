@@ -24,13 +24,15 @@ import {
   EDIT_TASK,
   GET_TASKNAME,
   PUSH_TASKNAME,
+  UPDATE_TASK,
 } from "../redux/constans/ToDoList_Constans";
 import { arrTheme } from "../Theme/ThemeManager";
 
 export class ToDoList extends Component {
-  // state = {
-  //   taskName: "",
-  // };
+  state = {
+    taskName: "",
+    disabled: true,
+  };
   renderTaskToDo = () => {
     return this.props.taskList
       .filter((task) => !task.done)
@@ -42,7 +44,12 @@ export class ToDoList extends Component {
               <Button
                 className="ml-1"
                 onClick={() => {
-                  this.props.handlePushTaskName(task);
+                  this.setState(
+                    {
+                      disabled: false,
+                    },
+                    () => this.props.handlePushTaskName(task)
+                  );
                 }}
               >
                 <i className="fa fa-edit"></i>
@@ -91,9 +98,25 @@ export class ToDoList extends Component {
   };
   renderTheme = () => {
     return arrTheme.map((theme, index) => {
-      return <option value={theme.id}>{theme.name}</option>;
+      return (
+        <option key={index} value={theme.id}>
+          {theme.name}
+        </option>
+      );
     });
   };
+  // UNSAFE_componentWillReceiveProps(newProps) {
+  //   // console.log("this.props", this.props);
+  //   // console.log("newProps", newProps);
+  //   this.setState({ taskName: newProps.taskEdit.taskName });
+  // }
+
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   let newState = { ...prevState, taskName: nextProps.taskEdit.taskName };
+  //   return newState;
+  //   // return null;
+  // }
+
   render() {
     return (
       <ThemeProvider theme={this.props.themeToDoList}>
@@ -107,19 +130,58 @@ export class ToDoList extends Component {
             {this.renderTheme()}
           </Dropdown>
           <TextField
-            value={this.props.taskEdit.taskName}
+            value={this.state.taskName}
             onChange={(e) => {
-              this.props.handleOnChange(e);
+              this.setState({
+                taskName: e.target.value,
+              });
             }}
             label="Task name"
             className="w-50"
           ></TextField>
-          <Button className="ml-2" onClick={this.props.handleAddTask}>
+          <Button
+            className="ml-2"
+            onClick={() => {
+              let { taskName } = this.state;
+
+              let task = {
+                id: Date.now(),
+                taskName: taskName,
+                done: false,
+              };
+              this.props.handleAddTask(task);
+            }}
+          >
             <i className="fa fa-plus"></i> Add task
           </Button>
-          <Button className="ml-2">
-            <i className="fa fa-upload"></i> Edit task
-          </Button>
+          {this.state.disabled ? (
+            <Button
+              disabled
+              className="ml-2"
+              onClick={() => {
+                this.props.handleUpdateTask(this.state.taskName);
+              }}
+            >
+              <i className="fa fa-upload"></i> Update task
+            </Button>
+          ) : (
+            <Button
+              className="ml-2"
+              onClick={() => {
+                let { taskName } = this.state;
+                this.setState(
+                  {
+                    disabled: true,
+                    taskName: "",
+                  },
+                  () => this.props.handleUpdateTask(taskName)
+                );
+              }}
+            >
+              <i className="fa fa-upload"></i> Update task
+            </Button>
+          )}
+
           <hr />
           <Heading3>Task to do</Heading3>
           <Table>
@@ -132,6 +194,13 @@ export class ToDoList extends Component {
         </Container>
       </ThemeProvider>
     );
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.taskEdit.id != this.props.taskEdit.id) {
+      this.setState({
+        taskName: this.props.taskEdit.taskName,
+      });
+    }
   }
 }
 
@@ -150,17 +219,18 @@ const mapDispatchToProps = (dispatch) => {
         payload: e,
       });
     },
-    handleAddTask: () => {
+    handleAddTask: (task) => {
       dispatch({
         type: ADD_TASK,
+        payload: task,
       });
     },
-    handleOnChange: (e) => {
-      dispatch({
-        type: GET_TASKNAME,
-        payload: e,
-      });
-    },
+    // handleOnChange: (e) => {
+    //   dispatch({
+    //     type: GET_TASKNAME,
+    //     payload: e,
+    //   });
+    // },
     handleDeleteTask: (idTask) => {
       dispatch({
         type: DELETE_TASK,
@@ -183,6 +253,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: PUSH_TASKNAME,
         payload: task,
+      });
+    },
+    handleUpdateTask: (taskName) => {
+      dispatch({
+        type: UPDATE_TASK,
+        payload: taskName,
       });
     },
   };

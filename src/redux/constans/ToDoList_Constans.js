@@ -5,3 +5,4 @@ export const GET_TASKNAME = "GET_TASKNAME";
 export const EDIT_TASK = "EDIT_TASK";
 export const COMPLETE_TASK = "COMPLETE_TASK";
 export const PUSH_TASKNAME = "PUSH_TASKNAME";
+export const UPDATE_TASK = "UPDATE_TASK";
