@@ -1,1 +1,16 @@
 google.com
+my-live.slatic.net
+pages.lazada.vn
+nav-edge.smartscreen.microsoft.com
+zd-img-global.slatic.net.w.kunlungem.com
+zconfig.alibabausercontent.com.w.cdngslb.com
+evoke-windowsservices-tas.msedge.net
+dns.msftncsi.com
+updates.g.aaplimg.com
+e2338.a.akamaiedge.net
+hcdnw.lzd.ovc.v6.cdnhwcick110.com
+o.alicdn.com.w.cdngslb.com
+mesu.g.aaplimg.com
+ipv6.msftconnecttest.com
+e10499.dsce9.akamaiedge.net.0.1.cn.akamaiedge.net
+client.wns.windows.com
