@@ -59,3 +59,11 @@ conversions.appsflyer.com
 partner.googleadservices.com
 collector.github.com
 launches.appsflyer.com
+nav-edge.smartscreen.microsoft.com
+th.bing.com
+assets.msn.com
+nleditor.osi.office.net
+r.bing.com
+ntp.msn.com
+r.msftstatic.com
+api.msn.com
