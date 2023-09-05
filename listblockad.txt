@@ -82,3 +82,16 @@ ak.roudoduor.com
 se1.mavideo.microsoft.com
 lby2kd27c.com
 cdn.bncloudfl.com
+asc-public.oss-ap-southeast-1.aliyuncs.com
+api.appcenter.ms
+sentry.io
+shftr.adnxs.net
+filebroker-cdn.lazada.vn
+filebroker-cdn.lazada.vn.w.kunlunsl.com
+lightstep.kaizen.nvidia.com
+gfwsl.geforce.com
+rg-sg.lazada.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com
+h-adashx.ut.lazada.com
+trade-acs.m.taobao.com
+unitbrain-buyer-v6-pub.m.taobao.com.gds.alibabadns.com
+e2338.a.akamaiedge.net
