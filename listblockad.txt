@@ -71,3 +71,12 @@ ecn.dev.virtualearth.net
 deff.nelreports.net
 img-s-msn-com.akamaized.net
 a1931.dscgi3.akamai.net
+cdn.tgdd.vn
+ntp.msn.com
+www.gstatic.com
+gwcrm.tgdd.vn
+bitstorage.finance
+ak.roudoduor.com
+1.bealanews.com
+3.bp.blogspot.com
+se1.mavideo.microsoft.com
