@@ -67,3 +67,7 @@ r.bing.com
 ntp.msn.com
 r.msftstatic.com
 api.msn.com
+ecn.dev.virtualearth.net
+deff.nelreports.net
+img-s-msn-com.akamaized.net
+a1931.dscgi3.akamai.net
