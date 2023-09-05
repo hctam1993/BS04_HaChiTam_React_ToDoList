@@ -94,3 +94,5 @@ h-adashx.ut.lazada.com
 trade-acs.m.taobao.com
 unitbrain-buyer-v6-pub.m.taobao.com.gds.alibabadns.com
 e2338.a.akamaiedge.net
+ak.hauchiwu.com
+1.bealanews.com
